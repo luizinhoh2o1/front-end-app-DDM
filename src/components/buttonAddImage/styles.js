@@ -1,5 +1,9 @@
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
-    padding: 5px;
+`;
+
+export const ButtomImage = styled.Image`
+    width: 120px;
+    height: 120px;
 `;
