@@ -1,19 +1,20 @@
-import { Image } from 'react-native';
+import { Pressable } from 'react-native';
 
 import {
-    Container,
     ButtomImage
 } from './styles';
 
 import buttonIMG from '../../../assets/button-code.png'
 
-function ButtonBarCode() {
+function ButtonBarCode( props ) {
     return (
-        <Container>
-            <ButtomImage
-                source={buttonIMG}
-            />
-        </Container>
+            <Pressable
+                onPress={props.eventHandler}
+            >
+                <ButtomImage
+                    source={buttonIMG}
+                />
+            </Pressable>
     );
 }
 

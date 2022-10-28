@@ -3,14 +3,31 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
     justify-content: center;
     align-items: center;
+    align-content: center;
 `;
 
 export const Background = styled.View`
     margin-top: 80px;
     width: 95%;
-    height: 700px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     background-color: #F4F4F4;
     border-radius: 10px;
+`;
+
+export const Title = styled.Text`
+    color: black;
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+`;
+
+export const Label = styled.Text`
+    font-size: 18px;
+    color: black;
+    margin-left: 4px;
+    width: 100%;
 `;
 
 export const ContainerInput = styled.View`
@@ -35,6 +52,8 @@ export const InputBarCode = styled.TextInput`
     border-radius: 16px;
     padding-left: 15px;
     padding-right: 15px;
+    font-weight: bold;
+    color: #4F4F4F;
 `;
 
 export const InputValue = styled.TextInput`
@@ -44,20 +63,4 @@ export const InputValue = styled.TextInput`
     border-radius: 16px;
     padding-left: 15px;
     padding-right: 15px;
-`;
-
-export const Title = styled.Text`
-    color: black;
-    font-size: 28px;
-    text-align: center;
-    margin-bottom: 20px;
-    margin-top: 25px;
-    font-weight: bold;
-`;
-
-export const Label = styled.Text`
-    font-size: 18px;
-    color: black;
-    margin-left: 4px;
-    width: 100%;
 `;

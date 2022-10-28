@@ -1,4 +1,12 @@
-import { View, StyleSheet } from 'react-native';
+import {
+    View,
+    StyleSheet,
+    ScrollView,
+    KeyboardAvoidingView
+} from 'react-native';
+
+import { useNavigation } from '@react-navigation/native';
+import { useState, useEffect } from 'react';
 
 import {
     Title,
@@ -14,73 +22,97 @@ import {
 import ButtonBarCode from '../../components/buttonBarCode';
 import ButtonAddImage from '../../components/buttonAddImage';
 import CancelActionButton from '../../components/cancelActionButton';
+import SaveActionButton from '../../components/saveActionButton';
 
-function AddProductPage() {
+function AddProductPage( {route} ) {
+
+    const navigation = useNavigation();
+
+    // scannerEANPage abre pagina de Scanner
+    function scannerEANPage() {
+        navigation.navigate('ScannerEAN', { pageReturn: 'AddProduct' });
+    }
+
     return (
-        <Container>
-            <Background>
+        <ScrollView>
+            <KeyboardAvoidingView behavior="padding" enabled>
 
-            <Title>Cadastro de Produto</Title>
+                <Container>
 
-            <ContainerInput>
-                <Label>Marca</Label>
-                <InputText/>
-            </ContainerInput>
+                    <Background>
 
-            <ContainerInput>
-                <Label>Tipo</Label>
-                <InputText/>
-            </ContainerInput>
+                    <Title>Cadastro de Produto</Title>
 
-            <ContainerInput>
-                <Label>Descrição</Label>
-                <InputText/>
-            </ContainerInput>
+                    <ContainerInput>
+                        <Label>Marca</Label>
+                        <InputText/>
+                    </ContainerInput>
 
-            <View style={styles.precoQuantidade}>
-               
-                <ContainerInput>
-                    <Label>Preço R$</Label>
-                    <InputValue/>
-                </ContainerInput>
-                
-                <ContainerInput>
-                    <Label>Quantidade</Label>
-                    <InputValue/>
-                </ContainerInput>
+                    <ContainerInput>
+                        <Label>Tipo</Label>
+                        <InputText/>
+                    </ContainerInput>
 
-            </View>
+                    <ContainerInput>
+                        <Label>Descrição</Label>
+                        <InputText/>
+                    </ContainerInput>
 
-            <ContainerInput>
+                    {/* View para alinhar os dois componentes de input */}
+                    <View style={{justifyContent: 'space-between',flexDirection: 'row'}}>
+                    
+                        <ContainerInput>
+                            <Label>Preço R$</Label>
+                            <InputValue/>
+                        </ContainerInput>
+                        
+                        <ContainerInput>
+                            <Label>Quantidade</Label>
+                            <InputValue/>
+                        </ContainerInput>
 
-                <Label>Código de barras</Label>
+                    </View>
 
-                <View style={{flexDirection: 'row'}}>
-                    <InputBarCode />
-                    <ButtonBarCode/>
-                </View>
+                    <ContainerInput>
 
-            </ContainerInput>
-            
-            <View style={styles.buttomAddImg}>
-                <ButtonAddImage/>
-            </View>
+                        <Label>Código de barras</Label>
 
-            <CancelActionButton text="Cancelar"/>
-            
-            </Background>
-        </Container>
+                        <View style={{flexDirection: 'row'}}>
+                            <InputBarCode
+                                editable={false}
+                                value={route.params?.barcode}
+                            />
+                            <ButtonBarCode
+                                eventHandler={scannerEANPage}
+                            />
+                        </View>
+
+                    </ContainerInput>
+                    
+                    <View style={styles.buttomAddImg}>
+                        <ButtonAddImage/>
+                    </View>
+
+                    <View style={{justifyContent: 'space-around',flexDirection: 'row'}}>
+
+                        <CancelActionButton text="Cancelar"/>
+                        <SaveActionButton text="Salvar"/>
+
+                    </View>
+
+                    </Background>
+                </Container>
+
+            </KeyboardAvoidingView>
+        </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
-    precoQuantidade: {
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-    },
     buttomAddImg: {
         alignItems: 'center',
-        marginTop: 20
+        marginTop: 20,
+        marginBottom: 30
     }
 });
 

@@ -1,17 +1,15 @@
 import React from 'react';
+
 import { KeyboardAvoidingView, ScrollView } from 'react-native';
-import AddProductPage from './src/pages/AddProduct';
+
+import { AppRoutes } from './src/routes/index';
 
 export default function App() {
   return (
-    <ScrollView>
 
-      <KeyboardAvoidingView behavior="position" enabled>
 
-        <AddProductPage/>
+        <AppRoutes/>
+        
 
-      </KeyboardAvoidingView>
-
-    </ScrollView>
   );
 }
