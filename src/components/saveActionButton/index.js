@@ -4,15 +4,16 @@ import {
     StyleSheet
 } from 'react-native';
 
-function SaveActionButton(props) {
+function SaveActionButton( props ) {
 
     return (
-        <Pressable style={styles.button}>
-
+        <Pressable
+            style={styles.button}
+            onPress={props.eventHandler}
+        >
             <Text style={styles.text}>
                 {props.text}
             </Text>
-
         </Pressable>
     );
 }
