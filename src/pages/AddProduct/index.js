@@ -53,29 +53,37 @@ function AddProductPage( {route} ) {
     }
 
     // Request POST
-    const baseUrl = 'https://estoqueapi.azurewebsites.net';
-    
+    const baseURL = 'https://192.168.0.190:7188';
+
+    const objectProduct = {
+        descricao: productDescription,
+        marca: productBrand,
+        preco: productPrice,
+        tipo: productType,
+        quantidade: productAmount,
+        codigoDeBarra: productBarCode
+    }
+
     async function requestPost() {
         try {
-            const response = await axios.post(`${baseUrl}/produto/criar-produto`,
-            {
-                nome: {productDescription},
-                marca: {productBrand},
-                preco: {productPrice},
-                quantidade: {productAmount},
-                codigoDeBarra: {productBarCode}
+            await fetch(`${baseURL}/produto/criar-produto`, {
+                method: 'POST',
+                headers: {
+                    Accept: '*/*',
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify(objectProduct)
             });
-            
-            if (response.status === 200) {
-                setProductAmount(0);
-                setProductBarCode("");
-                setProductBrand("");
-                setProductDescription("");
-                setProductPrice(0.01);
-                setProductType("");
-            }
-        } catch (error) {
-            alert(error);
+        
+            setProductAmount(0);
+            setProductBarCode("");
+            setProductBrand("");
+            setProductDescription("");
+            setProductPrice(0.01);
+            setProductType("");
+
+        } catch(err) {
+            console.log(err);
         }
     }
 
@@ -93,6 +101,7 @@ function AddProductPage( {route} ) {
                         <Label>Marca</Label>
                         <InputText
                             onChangeText={setProductBrand}
+                            value={productBrand}
                         />
                     </ContainerInput>
 
@@ -100,6 +109,7 @@ function AddProductPage( {route} ) {
                         <Label>Tipo</Label>
                         <InputText
                             onChangeText={setProductType}
+                            value={productType}
                         />
                     </ContainerInput>
 
@@ -107,6 +117,7 @@ function AddProductPage( {route} ) {
                         <Label>Descrição</Label>
                         <InputText
                             onChangeText={setProductDescription}
+                            value={productDescription}
                         />
                     </ContainerInput>
 
@@ -133,6 +144,7 @@ function AddProductPage( {route} ) {
                             <Label>Quantidade</Label>
                             <InputValue
                                 keyboardType="numeric"
+                                value={productAmount}
                                 onChangeText={(value) => {
                                     setProductAmount(value * 1)
                                 }}
@@ -147,8 +159,9 @@ function AddProductPage( {route} ) {
 
                         <View style={{flexDirection: 'row'}}>
                             <InputBarCode
-                                editable={false}
-                                value={route.params?.barcode}
+                                keyboardType="numeric"
+                                value={productBarCode}
+                                onChangeText={(value) => setProductBarCode(value)}
                             />
 
                             <ButtonBarCode
