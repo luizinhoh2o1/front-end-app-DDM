@@ -5,6 +5,14 @@
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "android": {
+      "package": "app.ddm.estoque"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "833ebc5c-709c-4606-bcdb-2f913dbcf87f"
+      }
+    }
   }
 }

@@ -7,6 +7,8 @@ import {
 
 import { useNavigation } from '@react-navigation/native';
 import { useState, useEffect } from 'react';
+import CurrencyInput from 'react-native-currency-input';
+import axios from 'axios';
 
 import {
     Title,
@@ -28,9 +30,61 @@ function AddProductPage( {route} ) {
 
     const navigation = useNavigation();
 
+    // States da pagina
+    const [productBrand, setProductBrand] = useState("");
+    const [productType, setProductType] = useState("");
+    const [productDescription, setProductDescription] = useState("");
+    const [productPrice, setProductPrice] = useState(0.01);
+    const [productAmount, setProductAmount] = useState(0);
+    const [productBarCode, setProductBarCode] = useState("");
+
+
+    // useEffect para setar o valor do productBarCode
+    useEffect(() => {
+        if (route.params?.barcode) {
+            setProductBarCode(route.params.barcode);
+        }
+    }, [route.params?.barcode]);
+
+
     // scannerEANPage abre pagina de Scanner
     function scannerEANPage() {
-        navigation.navigate('ScannerEAN', { pageReturn: 'AddProduct' });
+       navigation.navigate('ScannerEAN', { pageReturn: 'AddProduct' });
+    }
+
+    // Request POST
+    const baseURL = 'https://192.168.0.190:7188';
+
+    const objectProduct = {
+        descricao: productDescription,
+        marca: productBrand,
+        preco: productPrice,
+        tipo: productType,
+        quantidade: productAmount,
+        codigoDeBarra: productBarCode
+    }
+
+    async function requestPost() {
+        try {
+            await fetch(`${baseURL}/produto/criar-produto`, {
+                method: 'POST',
+                headers: {
+                    Accept: '*/*',
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify(objectProduct)
+            });
+        
+            setProductAmount(0);
+            setProductBarCode("");
+            setProductBrand("");
+            setProductDescription("");
+            setProductPrice(0.01);
+            setProductType("");
+
+        } catch(err) {
+            console.log(err);
+        }
     }
 
     return (
@@ -45,17 +99,26 @@ function AddProductPage( {route} ) {
 
                     <ContainerInput>
                         <Label>Marca</Label>
-                        <InputText/>
+                        <InputText
+                            onChangeText={setProductBrand}
+                            value={productBrand}
+                        />
                     </ContainerInput>
 
                     <ContainerInput>
                         <Label>Tipo</Label>
-                        <InputText/>
+                        <InputText
+                            onChangeText={setProductType}
+                            value={productType}
+                        />
                     </ContainerInput>
 
                     <ContainerInput>
                         <Label>Descrição</Label>
-                        <InputText/>
+                        <InputText
+                            onChangeText={setProductDescription}
+                            value={productDescription}
+                        />
                     </ContainerInput>
 
                     {/* View para alinhar os dois componentes de input */}
@@ -63,12 +126,29 @@ function AddProductPage( {route} ) {
                     
                         <ContainerInput>
                             <Label>Preço R$</Label>
-                            <InputValue/>
+                            
+                            <CurrencyInput
+                                style={styles.currencyInput}
+                                value={productPrice}
+                                onChangeValue={setProductPrice}
+                                prefix=""
+                                delimiter=","
+                                separator="."
+                                precision={2}
+                                minValue={0.01}
+                                maxValue={10000000}
+                            />
                         </ContainerInput>
                         
                         <ContainerInput>
                             <Label>Quantidade</Label>
-                            <InputValue/>
+                            <InputValue
+                                keyboardType="numeric"
+                                value={productAmount}
+                                onChangeText={(value) => {
+                                    setProductAmount(value * 1)
+                                }}
+                            />
                         </ContainerInput>
 
                     </View>
@@ -79,9 +159,11 @@ function AddProductPage( {route} ) {
 
                         <View style={{flexDirection: 'row'}}>
                             <InputBarCode
-                                editable={false}
-                                value={route.params?.barcode}
+                                keyboardType="numeric"
+                                value={productBarCode}
+                                onChangeText={(value) => setProductBarCode(value)}
                             />
+
                             <ButtonBarCode
                                 eventHandler={scannerEANPage}
                             />
@@ -96,7 +178,10 @@ function AddProductPage( {route} ) {
                     <View style={{justifyContent: 'space-around',flexDirection: 'row'}}>
 
                         <CancelActionButton text="Cancelar"/>
-                        <SaveActionButton text="Salvar"/>
+                        <SaveActionButton
+                            text="Salvar"
+                            eventHandler={requestPost}
+                        />
 
                     </View>
 
@@ -113,6 +198,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 20,
         marginBottom: 30
+    },
+    currencyInput: {
+        width: 120,
+        height: 40,
+        backgroundColor: 'white',
+        borderRadius: 16,
+        paddingLeft: 15,
+        paddingRight: 15
     }
 });
 
