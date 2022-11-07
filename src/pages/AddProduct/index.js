@@ -2,13 +2,13 @@ import {
     View,
     StyleSheet,
     ScrollView,
-    KeyboardAvoidingView
+    KeyboardAvoidingView,
+    Dimensions
 } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 import { useState, useEffect } from 'react';
 import CurrencyInput from 'react-native-currency-input';
-import axios from 'axios';
 
 import {
     Title,
@@ -53,7 +53,7 @@ function AddProductPage( {route} ) {
     }
 
     // Request POST
-    const baseURL = 'https://192.168.0.190:7188';
+    const baseURL = 'http://192.168.0.190:7188';
 
     const objectProduct = {
         descricao: productDescription,
@@ -62,6 +62,15 @@ function AddProductPage( {route} ) {
         tipo: productType,
         quantidade: productAmount,
         codigoDeBarra: productBarCode
+    }
+
+    function cleanFields() {
+        setProductAmount();
+        setProductBarCode("");
+        setProductBrand("");
+        setProductDescription("");
+        setProductPrice(0.01);
+        setProductType("");
     }
 
     async function requestPost() {
@@ -74,13 +83,8 @@ function AddProductPage( {route} ) {
                 },
                 body: JSON.stringify(objectProduct)
             });
-        
-            setProductAmount(0);
-            setProductBarCode("");
-            setProductBrand("");
-            setProductDescription("");
-            setProductPrice(0.01);
-            setProductType("");
+
+            cleanFields();
 
         } catch(err) {
             console.log(err);
@@ -89,7 +93,7 @@ function AddProductPage( {route} ) {
 
     return (
         <ScrollView>
-            <KeyboardAvoidingView behavior="padding" enabled>
+            <KeyboardAvoidingView behavior="padding" enabled style={styles.keyboardView}>
 
                 <Container>
 
@@ -206,6 +210,10 @@ const styles = StyleSheet.create({
         borderRadius: 16,
         paddingLeft: 15,
         paddingRight: 15
+    },
+    keyboardView: {
+        width: Dimensions.get('screen').width,
+        height: Dimensions.get('screen').height,
     }
 });
 
