@@ -5,10 +5,7 @@ import {
     KeyboardAvoidingView,
     Dimensions
 } from 'react-native';
-
-import { useNavigation } from '@react-navigation/native';
 import { useState, useEffect } from 'react';
-import CurrencyInput from 'react-native-currency-input';
 
 import {
     Title,
@@ -20,6 +17,11 @@ import {
     InputBarCode,
     Background
 } from './styles';
+
+import { useNavigation } from '@react-navigation/native';
+import api from '../../api/Product';
+import CurrencyInput from 'react-native-currency-input';
+
 
 import ButtonBarCode from '../../components/buttonBarCode';
 import ButtonAddImage from '../../components/buttonAddImage';
@@ -52,9 +54,6 @@ function AddProductPage( {route} ) {
        navigation.navigate('ScannerEAN', { pageReturn: 'AddProduct' });
     }
 
-    // Request POST
-    const baseURL = 'http://192.168.0.190:7188';
-
     const objectProduct = {
         descricao: productDescription,
         marca: productBrand,
@@ -74,21 +73,13 @@ function AddProductPage( {route} ) {
     }
 
     async function requestPost() {
-        try {
-            await fetch(`${baseURL}/produto/criar-produto`, {
-                method: 'POST',
-                headers: {
-                    Accept: '*/*',
-                    'Content-Type':'application/json'
-                },
-                body: JSON.stringify(objectProduct)
-            });
-
-            cleanFields();
-
-        } catch(err) {
-            console.log(err);
-        }
+        api.post('/produto/criar-produto', objectProduct)
+        .then((response) => {
+            console.log(response);
+        }, (error) => {
+            console.log(error);
+        });
+        cleanFields()
     }
 
     return (
@@ -149,9 +140,7 @@ function AddProductPage( {route} ) {
                             <InputValue
                                 keyboardType="numeric"
                                 value={productAmount}
-                                onChangeText={(value) => {
-                                    setProductAmount(value * 1)
-                                }}
+                                onChangeText={setProductAmount}
                             />
                         </ContainerInput>
 
