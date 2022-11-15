@@ -27,13 +27,7 @@ export const InputText = styled.TextInput`
 
 export const Trace = styled.View`
     width: 100%;
-    height: 2px;
-    background-color: #9a9a9a;
-    border-radius: 10px;
-`;
-export const SmallTrace = styled.View`
-    width: 60%;
-    height: 2px;
-    background-color: #9a9a9a;
+    height: 1px;
+    background-color: #b0b0b0;
     border-radius: 10px;
 `;

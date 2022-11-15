@@ -45,6 +45,7 @@ function AddProductPage( {route} ) {
     useEffect(() => {
         if (route.params?.barcode) {
             setProductBarCode(route.params.barcode);
+            route.params.barcode = "";
         }
     }, [route.params?.barcode]);
 
@@ -72,14 +73,14 @@ function AddProductPage( {route} ) {
         setProductType("");
     }
 
-    async function requestPost() {
+    function requestPost() {
         api.post('/produto/criar-produto', objectProduct)
         .then((response) => {
             console.log(response);
         }, (error) => {
             console.log(error);
         });
-        cleanFields()
+        cleanFields();
     }
 
     return (

@@ -9,8 +9,8 @@ export const Container = styled.View`
 `;
 
 export const ProductImage = styled.Image`
-    height: 100px;
-    width: 100px;
+    height: 120px;
+    width: 120px;
     margin-bottom: 20px;
 `;
 
@@ -27,4 +27,11 @@ export const TextData = styled.Text`
     color: #959595;
     margin-left: 4px;
     width: 100%;
+`;
+
+export const SmallTrace = styled.View`
+    width: 80%;
+    height: 2px;
+    background-color: #d7d7d7;
+    border-radius: 10px;
 `;
