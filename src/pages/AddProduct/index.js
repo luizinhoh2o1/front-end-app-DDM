@@ -84,7 +84,7 @@ function AddProductPage( {route} ) {
 
     return (
         <ScrollView>
-            <KeyboardAvoidingView behavior="padding" enabled style={styles.keyboardView}>
+            <KeyboardAvoidingView behavior="padding" enabled style={styles.keyboardAvoidingView}>
 
                 <Container>
 
@@ -200,9 +200,9 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
         paddingRight: 15
     },
-    keyboardView: {
+    keyboardAvoidingView: {
         width: Dimensions.get('screen').width,
-        height: Dimensions.get('screen').height,
+        height: Dimensions.get('screen').height - 50,
     }
 });
 

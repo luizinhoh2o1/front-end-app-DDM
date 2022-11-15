@@ -1,5 +1,5 @@
 import {
-    TouchableOpacity,
+    Pressable,
     Text,
     StyleSheet
 } from 'react-native';
@@ -7,15 +7,14 @@ import {
 function SaveActionButton( props ) {
 
     return (
-        <TouchableOpacity
+        <Pressable
             style={styles.button}
             onPress={props.eventHandler}
-            activeOpacity={0.5}
         >
             <Text style={styles.text}>
                 {props.text}
             </Text>
-        </TouchableOpacity>
+        </Pressable>
     );
 }
 

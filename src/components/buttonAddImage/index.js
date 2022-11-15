@@ -1,5 +1,3 @@
-import { Image } from 'react-native';
-
 import {
     Container,
     ButtomImage
