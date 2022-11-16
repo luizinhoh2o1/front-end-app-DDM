@@ -13,25 +13,20 @@ import {
     Container,
     ContainerInput,
     InputText,
-    InputValue,
     InputBarCode,
     Background
 } from './styles';
 
-import { useNavigation } from '@react-navigation/native';
 import api from '../../api/Product';
 import CurrencyInput from 'react-native-currency-input';
 
-
-import ButtonBarCode from '../../components/buttonBarCode';
 import ButtonAddImage from '../../components/buttonAddImage';
 import RedActionButton from '../../components/redActionButton';
 import GreenActionButton from '../../components/greenActionButton';
 
-function AddProductPage( {route} ) {
+function EditProductPage( {route} ) {
 
-    const navigation = useNavigation();
-
+    const [productId, setProductId] = useState();
     const [productBrand, setProductBrand] = useState("");
     const [productType, setProductType] = useState("");
     const [productDescription, setProductDescription] = useState("");
@@ -39,22 +34,21 @@ function AddProductPage( {route} ) {
     const [productAmount, setProductAmount] = useState(0);
     const [productBarCode, setProductBarCode] = useState("");
 
-
     // useEffect para setar o valor do productBarCode
     useEffect(() => {
-        if (route.params?.barcode) {
-            setProductBarCode(route.params.barcode);
-            route.params.barcode = "";
+        if (route.params?.dataEditProduct) {
+            setProductId(route.params.dataEditProduct.productId);
+            setProductBrand(route.params.dataEditProduct.productBrand);
+            setProductType(route.params.dataEditProduct.productType);
+            setProductDescription(route.params.dataEditProduct.productDescription);
+            setProductPrice(route.params.dataEditProduct.productPrice);
+            setProductAmount(route.params.dataEditProduct.productAmount);
+            setProductBarCode(route.params.dataEditProduct.productBarCode);
         }
-    }, [route.params?.barcode]);
-
-
-    // scannerEANPage abre pagina de Scanner
-    function scannerEANPage() {
-       navigation.navigate('ScannerEAN', { pageReturn: 'AddProduct' });
-    }
+    }, [route.params?.dataEditProduct]);
 
     const objectProduct = {
+        id: productId,
         descricao: productDescription,
         marca: productBrand,
         preco: productPrice,
@@ -63,23 +57,13 @@ function AddProductPage( {route} ) {
         codigoDeBarra: productBarCode
     }
 
-    function cleanFields() {
-        setProductAmount();
-        setProductBarCode("");
-        setProductBrand("");
-        setProductDescription("");
-        setProductPrice(0.01);
-        setProductType("");
-    }
-
-    function requestPost() {
-        api.post('/produto/criar-produto', objectProduct)
+    function requestProductUpdate() {
+        api.update('/produto/...', objectProduct)
         .then((response) => {
             console.log(response);
         }, (error) => {
             console.log(error);
         });
-        cleanFields();
     }
 
     return (
@@ -90,7 +74,7 @@ function AddProductPage( {route} ) {
 
                     <Background>
 
-                    <Title>Cadastro de Produto</Title>
+                    <Title>Editor de Produto</Title>
 
                     <ContainerInput>
                         <Label>Marca</Label>
@@ -156,17 +140,11 @@ function AddProductPage( {route} ) {
 
                         <Label>Código de barras</Label>
 
-                        <View style={{flexDirection: 'row'}}>
-                            <InputBarCode
-                                keyboardType="numeric"
-                                value={productBarCode}
-                                onChangeText={(value) => setProductBarCode(value)}
-                            />
-
-                            <ButtonBarCode
-                                eventHandler={scannerEANPage}
-                            />
-                        </View>
+                        <InputBarCode
+                            keyboardType="numeric"
+                            value={productBarCode}
+                            onChangeText={(value) => setProductBarCode(value)}
+                        />
 
                     </ContainerInput>
                     
@@ -176,10 +154,10 @@ function AddProductPage( {route} ) {
 
                     <View style={{justifyContent: 'space-around',flexDirection: 'row'}}>
 
-                        <RedActionButton text="Cancelar"/>
+                        <RedActionButton text="Excluir"/>
                         <GreenActionButton
                             text="Salvar"
-                            eventHandler={requestPost}
+                            eventHandler={requestProductUpdate}
                         />
 
                     </View>
@@ -212,4 +190,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default AddProductPage;
+export default EditProductPage;

@@ -4,7 +4,7 @@ import {
     StyleSheet
 } from 'react-native';
 
-function CancelActionButton(props) {
+function RedActionButton(props) {
 
     return (
         <TouchableOpacity
@@ -38,4 +38,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default CancelActionButton;
+export default RedActionButton;

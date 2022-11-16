@@ -14,16 +14,25 @@ import productIMG from '../../../../assets/img-product.png';
 
 import ButtonEdit from '../../../components/buttonEdit';
 
+import { useNavigation } from '@react-navigation/native';
+
 export function Product( props ) {
 
+    const navigation = useNavigation();
 
     const objectProduct = {
+        productId: props.data.id,
         productDescription: props.data.descricao,
         productBrand: props.data.marca,
         productPrice: props.data.preco,
         productType: props.data.tipo,
         productAmount: props.data.quantidade,
         productBarCode: props.data.codigoDeBarra
+    }
+
+    // productEditor abre pagina editor do produto
+    function productEditor() {
+        navigation.navigate('EditProduct', { pageReturn: 'ListStorage', dataEditProduct: objectProduct });
     }
 
     return (
@@ -34,7 +43,9 @@ export function Product( props ) {
                     <ProductImage
                         source={productIMG}
                     />
-                    <ButtonEdit/>
+                    <ButtonEdit
+                        eventHandler={productEditor}
+                    />
                 </View>
 
                 <View style={{alignItems: 'flex-start', width: '55%'}}>

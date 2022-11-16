@@ -4,7 +4,7 @@ import {
     StyleSheet
 } from 'react-native';
 
-function SaveActionButton( props ) {
+function GreenActionButton( props ) {
 
     return (
         <TouchableOpacity
@@ -36,4 +36,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default SaveActionButton;
+export default GreenActionButton;

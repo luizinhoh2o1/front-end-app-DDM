@@ -71,11 +71,6 @@ export default function ListStorage({route}) {
     function addProductPage() {
         navigation.navigate('AddProduct', { pageReturn: 'ListStorage' });
     }
-
-
-    function productEditor() {
-        navigation.navigate('AddProduct', { pageReturn: 'ListStorage' });
-    }
     
     function requestGetProductList() {
         api.get('/produto/listar-todos-produtos')
