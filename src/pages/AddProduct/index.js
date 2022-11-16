@@ -53,10 +53,13 @@ function AddProductPage( {route} ) {
        navigation.navigate('ScannerEAN', { pageReturn: 'AddProduct' });
     }
 
-    // return page
     function returnPage() {
         navigation.navigate('ListStorage');
-     }
+    }
+
+    function simpleAlert(message) {
+        alert(message);
+    }
 
     const objectProduct = {
         descricao: productDescription,
@@ -79,11 +82,17 @@ function AddProductPage( {route} ) {
     function requestPost() {
         api.post('/produto/criar-produto', objectProduct)
         .then((response) => {
-            console.log(response);
+
+            if (response.data.sucesso === true) {
+                simpleAlert("Cadastrado com sucesso!");
+                cleanFields();
+            } else {
+                simpleAlert(`Erro!\n${response.data.mensagem}`);
+            }
+    
         }, (error) => {
             console.log(error);
         });
-        cleanFields();
     }
 
     return (
