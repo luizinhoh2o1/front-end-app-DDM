@@ -47,7 +47,7 @@ export const InputText = styled.TextInput`
 `;
 
 export const InputBarCode = styled.TextInput`
-    width: 85%;
+    width: 100%;
     height: 40px;
     background-color: #CCCCCC;
     border-radius: 16px;

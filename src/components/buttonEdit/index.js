@@ -4,9 +4,9 @@ import {
     ButtomImage
 } from './styles';
 
-import buttonIMG from '../../../assets/button-code.png'
+import buttonIMG from '../../../assets/button-edit.png'
 
-function ButtonBarCode( props ) {
+function ButtonEdit( props ) {
     return (
             <TouchableOpacity
                 onPress={props.eventHandler}
@@ -19,4 +19,4 @@ function ButtonBarCode( props ) {
     );
 }
 
-export default ButtonBarCode;
+export default ButtonEdit;

@@ -1,25 +1,27 @@
 import {
-    Pressable,
+    TouchableOpacity,
     Text,
     StyleSheet
 } from 'react-native';
 
-function CancelActionButton(props) {
+function GreenActionButton( props ) {
 
     return (
-        <Pressable style={styles.button}>
-
+        <TouchableOpacity
+            style={styles.button}
+            onPress={props.eventHandler}
+            activeOpacity={0.5}
+        >
             <Text style={styles.text}>
                 {props.text}
             </Text>
-
-        </Pressable>
+        </TouchableOpacity>
     );
 }
 
 const styles = StyleSheet.create({
     button: {
-        backgroundColor: '#B12F2F',
+        backgroundColor: '#2FB176',
         borderRadius: 20,
         alignItems: 'center',
         justifyContent: 'center',
@@ -34,4 +36,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default CancelActionButton;
+export default GreenActionButton;
