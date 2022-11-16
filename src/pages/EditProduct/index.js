@@ -17,14 +17,18 @@ import {
     Background
 } from './styles';
 
+import { useNavigation } from '@react-navigation/native';
 import api from '../../api/Product';
 import CurrencyInput from 'react-native-currency-input';
 
+import ButtonReturn from '../../components/buttonReturn';
 import ButtonAddImage from '../../components/buttonAddImage';
 import RedActionButton from '../../components/redActionButton';
 import GreenActionButton from '../../components/greenActionButton';
 
 function EditProductPage( {route} ) {
+
+    const navigation = useNavigation();
 
     const [productId, setProductId] = useState();
     const [productBrand, setProductBrand] = useState("");
@@ -47,6 +51,11 @@ function EditProductPage( {route} ) {
         }
     }, [route.params?.dataEditProduct]);
 
+    // return page
+    function returnPage() {
+        navigation.navigate('ListStorage');
+    }
+
     const objectProduct = {
         id: productId,
         descricao: productDescription,
@@ -58,7 +67,7 @@ function EditProductPage( {route} ) {
     }
 
     function requestProductUpdate() {
-        api.update('/produto/...', objectProduct)
+        api.put('/produto/', objectProduct)
         .then((response) => {
             console.log(response);
         }, (error) => {
@@ -74,93 +83,97 @@ function EditProductPage( {route} ) {
 
                     <Background>
 
-                    <Title>Editor de Produto</Title>
-
-                    <ContainerInput>
-                        <Label>Marca</Label>
-                        <InputText
-                            onChangeText={setProductBrand}
-                            value={productBrand}
+                        <ButtonReturn
+                            eventHandler={returnPage}
                         />
-                    </ContainerInput>
 
-                    <ContainerInput>
-                        <Label>Tipo</Label>
-                        <InputText
-                            onChangeText={setProductType}
-                            value={productType}
-                        />
-                    </ContainerInput>
+                        <Title>Editor de Produto</Title>
 
-                    <ContainerInput>
-                        <Label>Descrição</Label>
-                        <InputText
-                            onChangeText={setProductDescription}
-                            value={productDescription}
-                        />
-                    </ContainerInput>
-
-                    {/* View para alinhar os dois componentes de input */}
-                    <View style={{justifyContent: 'space-between',flexDirection: 'row'}}>
-                    
                         <ContainerInput>
-                            <Label>Preço R$</Label>
-                            
-                            <CurrencyInput
-                                style={styles.currencyInput}
-                                value={productPrice}
-                                onChangeValue={setProductPrice}
-                                prefix=""
-                                delimiter=","
-                                separator="."
-                                precision={2}
-                                minValue={0.01}
-                                maxValue={10000000}
+                            <Label>Marca</Label>
+                            <InputText
+                                onChangeText={setProductBrand}
+                                value={productBrand}
                             />
+                        </ContainerInput>
+
+                        <ContainerInput>
+                            <Label>Tipo</Label>
+                            <InputText
+                                onChangeText={setProductType}
+                                value={productType}
+                            />
+                        </ContainerInput>
+
+                        <ContainerInput>
+                            <Label>Descrição</Label>
+                            <InputText
+                                onChangeText={setProductDescription}
+                                value={productDescription}
+                            />
+                        </ContainerInput>
+
+                        {/* View para alinhar os dois componentes de input */}
+                        <View style={{justifyContent: 'space-between',flexDirection: 'row'}}>
+                        
+                            <ContainerInput>
+                                <Label>Preço R$</Label>
+                                
+                                <CurrencyInput
+                                    style={styles.currencyInput}
+                                    value={productPrice}
+                                    onChangeValue={setProductPrice}
+                                    prefix=""
+                                    delimiter=","
+                                    separator="."
+                                    precision={2}
+                                    minValue={0.01}
+                                    maxValue={10000000}
+                                />
+                            </ContainerInput>
+                            
+                            <ContainerInput>
+                                <Label>Quantidade</Label>
+                                <CurrencyInput
+                                    style={styles.currencyInput}
+                                    value={productAmount}
+                                    onChangeValue={setProductAmount}
+                                    prefix=""
+                                    delimiter="."
+                                    separator=","
+                                    precision={0}
+                                    minValue={0}
+                                    maxValue={10000000}
+                                />
+                            </ContainerInput>
+
+                        </View>
+
+                        <ContainerInput>
+
+                            <Label>Código de barras</Label>
+
+                            <InputBarCode
+                                keyboardType="numeric"
+                                value={productBarCode}
+                                onChangeText={(value) => setProductBarCode(value)}
+                            />
+
                         </ContainerInput>
                         
-                        <ContainerInput>
-                            <Label>Quantidade</Label>
-                            <CurrencyInput
-                                style={styles.currencyInput}
-                                value={productAmount}
-                                onChangeValue={setProductAmount}
-                                prefix=""
-                                delimiter="."
-                                separator=","
-                                precision={0}
-                                minValue={0}
-                                maxValue={10000000}
+                        <View style={styles.buttomAddImg}>
+                            <ButtonAddImage/>
+                        </View>
+
+                        <View style={{justifyContent: 'space-around',flexDirection: 'row'}}>
+
+                            <RedActionButton text="Excluir"/>
+                            <GreenActionButton
+                                text="Salvar"
+                                eventHandler={requestProductUpdate}
                             />
-                        </ContainerInput>
 
-                    </View>
-
-                    <ContainerInput>
-
-                        <Label>Código de barras</Label>
-
-                        <InputBarCode
-                            keyboardType="numeric"
-                            value={productBarCode}
-                            onChangeText={(value) => setProductBarCode(value)}
-                        />
-
-                    </ContainerInput>
-                    
-                    <View style={styles.buttomAddImg}>
-                        <ButtonAddImage/>
-                    </View>
-
-                    <View style={{justifyContent: 'space-around',flexDirection: 'row'}}>
-
-                        <RedActionButton text="Excluir"/>
-                        <GreenActionButton
-                            text="Salvar"
-                            eventHandler={requestProductUpdate}
-                        />
-
-                    </View>
+                        </View>
 
                     </Background>
                 </Container>

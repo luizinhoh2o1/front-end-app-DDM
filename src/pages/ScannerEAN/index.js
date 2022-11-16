@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { useNavigation } from '@react-navigation/native';
 
+import ButtonReturn from '../../components/buttonReturn';
 import ImageScanner from '../../../assets/scanner.png';
 
 /**
@@ -25,8 +26,13 @@ export default function ScannerEAN({ route }) {
   const navigation = useNavigation();
 
   // Funcao para retornar para outra pagina passando parametro
-  function returnPage(page, params) {
+  function returnPageWithParams(page, params) {
     navigation.navigate(page, params);
+  }
+  
+  // return page
+  function returnPage() {
+    navigation.navigate('ListStorage');
   }
 
   /**
@@ -40,12 +46,12 @@ export default function ScannerEAN({ route }) {
         const {status} = await BarCodeScanner.requestPermissionsAsync();
         setHasPermission(status === "granted");
       }
-    )();
+    )()
   }, []);
 
   /**
    * Verifica se o usuario permitiu o uso da camera, se nao,
-   * vai ser exibido uma mensagem pedindo para permitir.
+   * sera exibido uma mensagem pedindo para permitir.
   */
   if (!hasPermission) {
     return (
@@ -59,11 +65,12 @@ export default function ScannerEAN({ route }) {
   // { data } possui o codigo de barras escaneado.
   const handleBarCodeScanned = ({data}) => {
     setScanData(data);
-    returnPage(route.params.pageReturn, {barcode: data});
+    returnPageWithParams(route.params.pageReturn, {barcode: data});
   };
 
   return (
     <View>
+      
 
       {/* Componente camera e scanner */}
       <BarCodeScanner 
@@ -73,7 +80,19 @@ export default function ScannerEAN({ route }) {
 
         {/* View da imagem de sobreposicao do Scanner */}
         <View style={styles.containerScannerImage}>
-          <Image source={ImageScanner} style={styles.scannerImage}/>
+
+          <Image
+            source={ImageScanner}
+            style={styles.scannerImage}
+          />
+          <View style={styles.bttnReturn}>
+          <ButtonReturn
+            
+            eventHandler={returnPage}
+          />
+          </View>
+          
+
         </View>
 
     </View>
@@ -102,5 +121,12 @@ const styles = StyleSheet.create({
     width: '80%',
     height: '80%',
     resizeMode: 'contain'
+  },
+  bttnReturn: {
+    position: 'absolute',
+    paddingLeft: 20,
+    paddingTop: 40,
+    width: Dimensions.get('screen').width,
+    height: Dimensions.get('screen').height,
   }
 });

@@ -7,7 +7,7 @@ export const Container = styled.View`
 `;
 
 export const Background = styled.View`
-    margin-top: 80px;
+    margin-top: 30px;
     width: 95%;
     padding-top: 20px;
     padding-bottom: 20px;
@@ -20,6 +20,7 @@ export const Title = styled.Text`
     font-size: 28px;
     text-align: center;
     margin-bottom: 20px;
+    margin-top: 20px;
     font-weight: bold;
 `;
 
