@@ -75,7 +75,7 @@ function AddProductPage( {route} ) {
         setProductBarCode("");
         setProductBrand("");
         setProductDescription("");
-        setProductPrice(0.01);
+        setProductPrice(0.00);
         setProductType("");
     }
 
@@ -193,7 +193,10 @@ function AddProductPage( {route} ) {
 
                         <View style={{justifyContent: 'space-around',flexDirection: 'row'}}>
 
-                            <RedActionButton text="Cancelar"/>
+                            <RedActionButton
+                                text="Limpar"
+                                eventHandler={cleanFields}
+                            />
                             <GreenActionButton
                                 text="Salvar"
                                 eventHandler={requestPost}
