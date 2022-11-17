@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
     },
     keyboardAvoidingView: {
         width: Dimensions.get('screen').width,
-        height: Dimensions.get('screen').height - 50,
+        height: Dimensions.get('screen').height,
     }
 });
 
