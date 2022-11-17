@@ -56,6 +56,10 @@ function EditProductPage( {route} ) {
         navigation.navigate('ListStorage');
     }
 
+    function simpleAlert(message) {
+        alert(message);
+    }
+
     const objectProduct = {
         id: productId,
         descricao: productDescription,
@@ -67,9 +71,33 @@ function EditProductPage( {route} ) {
     }
 
     function requestProductUpdate() {
-        api.put('/produto/', objectProduct)
+        api.post('/produto/editar-produto', objectProduct)
         .then((response) => {
-            console.log(response);
+            if (response.data.sucesso === true) {
+                simpleAlert("Editado com sucesso!");
+            } else {
+                simpleAlert(`Erro!\n${response.data.mensagem}`);
+            }
+        }, (error) => {
+            console.log(error);
+        });
+    }
+
+    function requestProductDelete() {
+        api.get('/produto/deletar-produto', {
+            params: {
+                id: objectProduct.id
+            }
+        })
+        .then((response) => {
+
+            if (response.data.sucesso === true) {
+                simpleAlert("Excluido com sucesso!");
+                returnPage();
+            } else {
+                simpleAlert(`Erro!\n${response.data.mensagem}`);
+            }
+            
         }, (error) => {
             console.log(error);
         });
@@ -167,7 +195,10 @@ function EditProductPage( {route} ) {
 
                         <View style={{justifyContent: 'space-around',flexDirection: 'row'}}>
 
-                            <RedActionButton text="Excluir"/>
+                            <RedActionButton
+                                text="Excluir"
+                                eventHandler={requestProductDelete}
+                            />
                             <GreenActionButton
                                 text="Salvar"
                                 eventHandler={requestProductUpdate}
@@ -199,7 +230,7 @@ const styles = StyleSheet.create({
     },
     keyboardAvoidingView: {
         width: Dimensions.get('screen').width,
-        height: Dimensions.get('screen').height - 50,
+        height: Dimensions.get('screen').height,
     }
 });
 

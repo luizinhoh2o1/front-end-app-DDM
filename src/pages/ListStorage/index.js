@@ -21,6 +21,8 @@ import { useNavigation } from '@react-navigation/native';
 
 import ButtonBarCode from '../../components/buttonBarCode';
 import ButtonAddProduct from '../../components/buttonAddProduct';
+import ButtonRefresh from '../../components/buttonRefresh';
+
 import Product from './Product';
 
 export default function ListStorage({route}) {
@@ -71,6 +73,10 @@ export default function ListStorage({route}) {
     function addProductPage() {
         navigation.navigate('AddProduct', { pageReturn: 'ListStorage' });
     }
+
+    function refreshList() {
+        requestGetProductList();
+    }
     
     function requestGetProductList() {
         api.get('/produto/listar-todos-produtos')
@@ -98,9 +104,15 @@ export default function ListStorage({route}) {
 
             <View style={{justifyContent: 'space-between',flexDirection: 'row', width: '100%'}}>
                 <Title>Estoque</Title>
-                <ButtonAddProduct
-                    eventHandler={addProductPage}
-                />
+                <View style={{justifyContent: 'space-between', flexDirection: 'row', width: '30%'}}>
+                    <ButtonRefresh
+                        eventHandler={refreshList}
+                    />
+                    <ButtonAddProduct
+                        eventHandler={addProductPage}
+                    />
+                </View>
+                
             </View>
 
             <Trace/>
