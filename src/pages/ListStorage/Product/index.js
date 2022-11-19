@@ -59,7 +59,7 @@ export function Product( props ) {
                     <TextData>{objectProduct.productAmount}</TextData>
 
                     <Label>Valor</Label>
-                    <TextData>R${objectProduct.productPrice}</TextData>
+                    <TextData>R${objectProduct.productPrice.toFixed(2)}</TextData>
 
                     <Label>Descrição</Label>
                     <TextData>{objectProduct.productDescription}</TextData>
