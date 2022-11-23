@@ -74,6 +74,7 @@ export default function ScannerEAN({ route }) {
 
       {/* Componente camera e scanner */}
       <BarCodeScanner 
+        barCodeTypes={["ean13", "ean8"]}
         style={styles.scanner}
         onBarCodeScanned={scanData ? undefined : handleBarCodeScanned}
       />
