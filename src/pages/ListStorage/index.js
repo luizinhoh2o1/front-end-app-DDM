@@ -76,6 +76,7 @@ export default function ListStorage({route}) {
 
     function refreshList() {
         requestGetProductList();
+        setSearchText("");
     }
     
     function requestGetProductList() {
